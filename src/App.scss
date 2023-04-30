@@ -20,4 +20,25 @@ body {
       color: rgb(211, 211, 110);
     }
   }
+
+  .pageUseFetch {
+    p.loading {
+      font-size: 1rem;
+      color: #ea5c28;
+
+      .spinner {
+        animation: spin infinite 2s linear;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
 }

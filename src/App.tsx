@@ -1,4 +1,4 @@
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, Navigate, Route, Routes } from 'react-router-dom';
 import './App.scss';
 import PageWelcome from './components/PageWelcome';
 import PageUseToggle from './components/PageUseToggle';
@@ -19,6 +19,7 @@ function App() {
         <Route path="/welcome" element={<PageWelcome />} />
         <Route path="/useToggle" element={<PageUseToggle />} />
         <Route path="/useFetch" element={<PageUseFetch />} />
+        <Route path="/" element={<Navigate to="/welcome" replace />}/>
       </Routes>
     </div>
   );
