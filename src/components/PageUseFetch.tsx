@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { FaSpinner } from 'react-icons/fa';
+import useFetch from '../hooks/useFetch';
 
 const ordersUrl =
   'https://raw.githubusercontent.com/graphql-compose/graphql-compose-examples/master/examples/northwind/data/json/orders.json';
@@ -8,43 +7,47 @@ const productsUrl =
   'https://raw.githubusercontent.com/graphql-compose/graphql-compose-examples/master/examples/northwind/data/json/products.json';
 
 const PageUseFetch = () => {
-  const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      (async () => {
-        setProducts((await axios.get(productsUrl)).data);
-      })();
-    }, Math.floor(Math.random() * 2000) + 1000);
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      (async () => {
-        setOrders((await axios.get(ordersUrl)).data);
-      })();
-    }, Math.floor(Math.random() * 2000) + 1000);
-  }, []);
+  const [products, loadingProducts, numberOfProducts] = useFetch(productsUrl);
+  const [orders, loadingOrders, numberOfOrders] = useFetch(ordersUrl);
 
   return (
-    <div className='pageUseFetch'>
-      {products.length > 0 ? (
-        <p>
-          There are <span style={{ color: 'red' }}>{products.length}</span>{' '}
-          products.
-        </p>
+    <div className="pageUseFetch">
+      {!loadingProducts ? (
+        <>
+          <p>
+            There are <span style={{ color: 'red' }}>{numberOfProducts}</span>{' '}
+            products.
+          </p>
+          {products.map((product, i) => {
+            return (
+              <span key={product.productID}>
+                {product.productID}
+                {numberOfProducts - 1 !== i && <span>,</span>}{' '}
+              </span>
+            );
+          })}
+        </>
       ) : (
         <p className="loading">
           <FaSpinner className="spinner" /> Loading products...
         </p>
       )}
 
-      {orders.length > 0 ? (
-        <p>
-          There are <span style={{ color: 'red' }}>{orders.length}</span>{' '}
-          orders.
-        </p>
+      {!loadingOrders ? (
+        <>
+          <p>
+            There are <span style={{ color: 'red' }}>{numberOfOrders}</span>{' '}
+            orders.
+          </p>
+          {orders.map((order, i) => {
+            return (
+              <span key={order.orderID}>
+                {order.orderID}
+                {numberOfOrders - 1 !== i && <span>,</span>}{' '}
+              </span>
+            );
+          })}
+        </>
       ) : (
         <p className="loading">
           <FaSpinner className="spinner" /> Loading orders...
